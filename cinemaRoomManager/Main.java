@@ -19,21 +19,33 @@ public class Main {
 				arr[i][j] = "S";
 			}
 		}
-		print(arr);
 		
-		System.out.println("\nEnter a row number:");
-		int chr = sc.nextInt();
-		System.out.println("Enter a seat number in that row:");
-		int chc = sc.nextInt();
-		
-		System.out.print("\nTicket price: ");
-		System.out.println("$" + price(r, c, chr, chc));
-		
-		reserve(arr, chr, chc);
+		int fin = 0;
+		while(fin == 0) {
+			System.out.println();
+			menu();
+			int ch = sc.nextInt();
+			switch (ch) {
+			case 1:
+				print(arr);
+				break;
+			case 2:
+				System.out.println("\nEnter a row number:");
+				int chr = sc.nextInt();
+				System.out.println("Enter a seat number in that row:");
+				int chc = sc.nextInt();
+				System.out.print("\nTicket price: ");
+				System.out.println("$" + price(r, c, chr, chc));
+				reserve(arr, chr, chc);
+				break;
+			case 0:
+				fin = 1;
+			}
+		}
 	}
+	
 	public static void reserve(String[][] arr, int a ,int b) {
 		arr[a-1][b-1] = "B";
-		print(arr);
 	}
 	public static void print(String[][] arr){
 		System.out.println();
@@ -59,5 +71,10 @@ public class Main {
 				return 10;
 			return 8;
 		}
+	}
+	static void menu() {
+		System.out.println("1. Show the seats");
+		System.out.println("2. Buy a ticket");
+		System.out.println("0. Exit");
 	}
 }
