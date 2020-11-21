@@ -30,13 +30,25 @@ public class Main {
 				print(arr);
 				break;
 			case 2:
-				System.out.println("\nEnter a row number:");
-				int chr = sc.nextInt();
-				System.out.println("Enter a seat number in that row:");
-				int chc = sc.nextInt();
-				System.out.print("\nTicket price: ");
-				System.out.println("$" + price(r, c, chr, chc));
-				reserve(arr, chr, chc);
+				while(true) {
+					System.out.println("\nEnter a row number:");
+					int chr = sc.nextInt();
+					System.out.println("Enter a seat number in that row:");
+					int chc = sc.nextInt();
+					if(chr<=0 || chr>arr.length || chc<=0 || chc>arr[0].length) 
+						System.out.println("\nWrong input!");
+					else if(arr[chr-1][chc-1].equals("S")) {
+						System.out.print("Ticket price: ");
+						System.out.println("$" + price(r, c, chr, chc));
+						reserve(arr, chr, chc);
+						break;
+					}
+					else 
+						System.out.println("\nThat ticket has already been purchased!");
+				}
+				break;
+			case 3:
+				statics(arr);
 				break;
 			case 0:
 				fin = 1;
@@ -75,6 +87,47 @@ public class Main {
 	static void menu() {
 		System.out.println("1. Show the seats");
 		System.out.println("2. Buy a ticket");
+		System.out.println("3. Statistics");
 		System.out.println("0. Exit");
+	}
+	static void statics(String[][] arr) {
+		int nbr = nbrTicketPur(arr);
+		System.out.println("\nNumber of purchased tickets: " + nbr);
+		System.out.printf("Percentage: %.2f",(nbr*100.0)/(arr.length*arr[0].length));
+		System.out.println("%");
+		System.out.println("Current income: $" + currentPrice(arr));
+		System.out.println("Total income: $" + totalPrice(arr.length, arr[0].length));
+	}
+	static int nbrTicketPur(String[][] arr) {
+		int nbr = 0;
+		for (int i = 0; i < arr.length; i++) {
+			for (int j = 0; j < arr[0].length; j++) {
+				if(arr[i][j].equals("B"))
+					nbr++;
+			}
+		}
+		return nbr;
+	}
+	static int totalPrice(int r, int c) {
+		if(c*r <= 60)
+			return c*r*10;
+		return (r/2)*c*10 + (r - r/2)*c*8;
+	}
+	static int currentPrice(String[][] arr) {
+		int price = 0;
+		int n1 = arr.length/2;
+		for (int i = 0; i < n1; i++) {
+			for (int k = 0; k < arr[0].length; k++) {
+				if(arr[i][k].equals("B"))
+					price += 10;
+			}
+		}
+		for (int i = arr.length - n1 - 1; i < arr.length; i++) {
+			for (int k = 0; k < arr[0].length; k++) {
+				if(arr[i][k].equals("B"))
+					price += 8;
+			}
+		}
+		return price;
 	}
 }
